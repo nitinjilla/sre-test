@@ -1,5 +1,3 @@
-//App: Dummy PDF OR PNG
-
 package main
 
 import (
@@ -8,33 +6,8 @@ import (
 	"math/rand"
 	"net/http"
 	"time"
-	"os"
 )
 
-
-func main() {
-	
-	//HTTP function
-	rand.Seed(time.Now().UnixNano())
-	
-	http.HandleFunc("/", serveRandomFile)
-	
-	err := http.ListenAndServe(":4000", nil)
-
-	//Logging for application
-	file, _ := os.OpenFile("/var/log/file-sharer.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-	log.SetOutput(file)
-	infoLogger := log.New(file, "INFO: ", log.LstdFlags|log.Lshortfile)	
-
-	infoLogger.Println("A file was downloaded.")	
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	file.Close()
-
-}
 
 
 func serveRandomFile(w http.ResponseWriter, r *http.Request) {
@@ -56,3 +29,18 @@ func serveRandomFile(w http.ResponseWriter, r *http.Request) {
 
 
 }
+
+func main() {
+	
+	rand.Seed(time.Now().UnixNano())
+	
+	http.HandleFunc("/", serveRandomFile)
+	
+	err := http.ListenAndServe(":3000", nil)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+}
+
