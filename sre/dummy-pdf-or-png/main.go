@@ -20,7 +20,7 @@ func serveRandomFile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if rnd >=5 && rnd < 9 {
+	if rnd < 9 {
 		http.ServeFile(w, r, "./dummy.pdf")
 		return
 	}
