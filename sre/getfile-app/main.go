@@ -25,7 +25,7 @@ func getRandomFile (w http.ResponseWriter, r *http.Request) {
 
         httpReqCounter.Inc()
 
-        reqFile, err := http.Get("http://192.168.8.119:3000")
+        reqFile, err := http.Get("http://dummypdfpng:3000")
         if err != nil {
 
                 log.Println(err)
