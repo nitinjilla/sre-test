@@ -21,7 +21,7 @@ jobs:
           project_id: ${{ secrets.GCLOUD_PROJECT_ID }}
           image_name: dummy-pdf-or-png
           image_tag: latest
-          dockerfile: ./Dockerfile
+#          dockerfile: Dockerfile
           context: ./sre/dummy-pdf-or-png
 
       - name: Push getfile-app image to asia.gcr
@@ -32,5 +32,5 @@ jobs:
           project_id: ${{ secrets.GCLOUD_PROJECT_ID }}
           image_name: getfile-app
           image_tag: latest
-          dockerfile: ./Dockerfile
+#          dockerfile: Dockerfile
           context: ./sre/getfile-app
