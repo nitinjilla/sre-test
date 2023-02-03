@@ -14,7 +14,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Push dummy-pdf-or-png image to asia.gcr
-      - uses: RafikFarhad/push-to-gcr-github-action@v5-beta
+        uses: RafikFarhad/push-to-gcr-github-action@v5-beta
         with:
           gcloud_service_key: ${{ secrets.GCLOUD_SERVICE_KEY }} 
           registry: asia.gcr.io
@@ -25,7 +25,7 @@ jobs:
           context: ./sre/dummy-pdf-or-png
 
       - name: Push getfile-app image to asia.gcr
-      - uses: RafikFarhad/push-to-gcr-github-action@v5-beta
+        uses: RafikFarhad/push-to-gcr-github-action@v5-beta
         with:
           gcloud_service_key: ${{ secrets.GCLOUD_SERVICE_KEY }} 
           registry: asia.gcr.io
