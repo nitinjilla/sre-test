@@ -1,0 +1,56 @@
+#Deploying all K8s manifests to GKE
+
+name: Running all K8s deployement in GKE
+
+on:
+  push:
+    branches:
+    - main
+
+env:
+  PROJECT_ID: ${{ secrets.GCLOUD_PROJECT_ID }}
+  GKE_CLUSTER: sre-test-nitin-gke      # TODO: update to cluster name
+  GKE_ZONE: europe-north1-a	       # TODO: update to cluster zone
+
+jobs:
+  setup-and-deploy:
+    name: Setup and Deploy
+    runs-on: ubuntu-latest
+
+    # Add "id-token" with the intended permissions.
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+
+    #Authentication via credentials json
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v1'
+      with:
+        credentials_json: '${{ secrets.GCLOUD_SERVICE_KEY }}'
+
+    # Setup gcloud CLI
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v1
+
+    # Get the GKE credentials so we can deploy to the cluster
+    - run: |-
+        gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
+    
+    # Deploy sample image to the GKE cluster
+    - name: Deploy
+      run: |-
+        kubectl apply -f ../../sre/k8s-manifests/
+#        kubectl apply -f dummypdfpng-svc.yml
+#        kubectl apply -f dummypdfpng-deployment.yml
+#        kubectl apply -f getfile-app-lb.yml
+#        kubectl apply -f getfile-app-deployment.yml
+	kubectl get deploy dummypdforpng-dpl
+	kubectl get deploy getfile-app-dpl
+	kubectl get svc dummypdforpng-svc
+        kubectl get svc getfile-app-svc
+
