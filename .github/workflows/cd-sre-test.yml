@@ -49,8 +49,8 @@ jobs:
 #        kubectl apply -f dummypdfpng-deployment.yml
 #        kubectl apply -f getfile-app-lb.yml
 #        kubectl apply -f getfile-app-deployment.yml
-	kubectl get deploy dummypdforpng-dpl
-	kubectl get deploy getfile-app-dpl
-	kubectl get svc dummypdforpng-svc
-        kubectl get svc getfile-app-svc
+#	kubectl get deploy dummypdforpng-dpl
+#	kubectl get deploy getfile-app-dpl
+#	kubectl get svc dummypdforpng-svc
+#       kubectl get svc getfile-app-svc
 
