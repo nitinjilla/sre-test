@@ -5,7 +5,7 @@ name: Running all K8s deployement in GKE
 on:
   push:
     branches:
-    - main
+    - master
 
 env:
   PROJECT_ID: ${{ secrets.GCLOUD_PROJECT_ID }}
