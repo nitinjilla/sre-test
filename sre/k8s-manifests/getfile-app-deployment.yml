@@ -1,0 +1,24 @@
+#K8s deployment file to be reached from Internet using loadbalancer
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: getfile-app-dpl
+spec:
+  selector:
+    matchLabels:
+      app: getfile-app
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: getfile-app
+    spec:
+      containers:
+        - name: dummypdforpng
+          image: "asia.gcr.io/sre-test-nitin/getfile-app"
+          env:
+          - name: BACKEND_URL
+            value: "http://dummypdforpng-svc:3000"
+          ports:
+            - containerPort: 3001

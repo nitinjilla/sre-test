@@ -1,0 +1,15 @@
+#K8s service which will be reached from Internet
+#External users will hit port 80 which will be forwarded to 3001 on which on Golang sever is listening 
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: getfile-app-svc
+spec:
+  selector:
+    app: getfile-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3001
+  type:LoadBalancer

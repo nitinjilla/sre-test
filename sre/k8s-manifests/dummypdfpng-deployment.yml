@@ -1,0 +1,21 @@
+#K8s deployment file for dummy-pdf-or-png (backend)
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dummypdforpng-dpl
+spec:
+  selector:
+    matchLabels:
+      app: dummypdforpng
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: dummypdforpng
+    spec:
+      containers:
+        - name: dummypdforpng
+          image: "asia.gcr.io/sre-test-nitin/dummy-pdf-or-png"
+          ports:
+            - containerPort: 3000

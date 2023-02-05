@@ -1,0 +1,13 @@
+#K8s service file 
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: dummypdforpng-svc
+spec:
+  selector:
+    app: dummypdforpng
+  ports:
+  - protocol: TCP
+    port: 3000
+
