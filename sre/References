@@ -1,0 +1,18 @@
+References
+
+
+1. 	https://github.com/gorilla/mux
+2.  	https://clavinjune.dev/en/blogs/golang-http-server-graceful-shutdown/
+3. 	https://gabrieltanner.org/blog/collecting-prometheus-metrics-in-golang/
+4.  	https://medium.com/honestbee-tw-engineer/gracefully-shutdown-in-go-http-server-5f5e6b83da5a
+5. 	https://pkg.go.dev/net/http
+6. 	https://pkg.go.dev/io/ioutil
+7. 	https://www.honeybadger.io/blog/golang-logging/
+8. 	https://developer.hashicorp.com/terraform/tutorials/kubernetes/gke
+9. 	https://devopsarena.medium.com/provision-gke-cluster-with-terraform-28bf2973c3d4
+10. 	https://kubernetes.io/docs/concepts/services-networking/service/
+11.	https://kubernetes.io/docs/tasks/access-application-cluster/connecting-frontend-backend/
+12.	https://levelup.gitconnected.com/deploying-simple-golang-webapp-to-kubernetes-25dc1736dcc4
+13.	https://nigelpoulton.com/demystifying-kubernetes-service-discovery/
+14.	https://github.com/google-github-actions/setup-gcloud/blob/main/example-workflows/gke/.github/workflows/gke.yml
+15.	https://github.com/Neutrollized/free-tier-gke 	
