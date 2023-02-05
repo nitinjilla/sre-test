@@ -1,6 +1,6 @@
 package main
 
-//This application which gets the file from the main server.
+//This application gets the file from backend.
 //Author: Nitin Jilla
 
 import (
@@ -25,7 +25,7 @@ func getRandomFile (w http.ResponseWriter, r *http.Request) {
 
         httpReqCounter.Inc()
 
-        reqFile, err := http.Get("http://dummypdfpng:3000")
+        reqFile, err := http.Get("http://dummypdforpng-svc:3000")
         if err != nil {
 
                 log.Println(err)
@@ -59,7 +59,7 @@ func getRandomFile (w http.ResponseWriter, r *http.Request) {
 //Provides application health
 func healthCheck(w http.ResponseWriter, r *http.Request){
 
-        fmt.Fprintf(w, "Status OK!")                            //Not the correct way to do it
+        fmt.Fprintf(w, "{status: OK}")                            //Not the correct way to do it
 }
 
 //Global variable which counts HTTP hits
