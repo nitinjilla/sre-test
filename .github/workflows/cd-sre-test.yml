@@ -9,7 +9,7 @@ on:
 
 env:
   PROJECT_ID: ${{ secrets.GCLOUD_PROJECT_ID }}
-  GKE_CLUSTER: sre-test-nitin-gke      # TODO: update to cluster name
+  GKE_CLUSTER: ${{ secrets.GCLOUD_PROJECT_ID }}-gke      # TODO: update to cluster name
   GKE_ZONE: europe-north1-a	           # TODO: update to cluster zone
 
 jobs:
@@ -25,11 +25,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
-      
-#    - name: Install gke-gcloud-auth-plugin
-#      run: |-
-#        sudo echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && sudo curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg  add - && sudo apt-get update -y && sudo apt-get install google-cloud-cli -y
-#        sudo apt-get install gke-gcloud-auth-plugin
 
     # Configure Workload Identity Federation and generate an access token.
     - id: 'auth'
@@ -38,31 +33,25 @@ jobs:
       with:
         workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
         service_account: '${{ secrets.GCLOUD_SVC_USER }}@${{ secrets.GCLOUD_PROJECT_ID }}.iam.gserviceaccount.com'
-    
-    #Authentication via credentials json
-#    - id: 'auth'
-#     uses: 'google-github-actions/auth@v1'
-#      with:
-#        credentials_json: '${{ secrets.GCLOUD_SERVICE_KEY }}'
 
     # Setup gcloud CLI
-    - name: Set up Cloud SDK
-      uses: google-github-actions/setup-gcloud@v1
+    - uses: google-github-actions/setup-gcloud@94337306dda8180d967a56932ceb4ddcf01edae7
+      with:
+        service_account_key: ${{ secrets.GCLOUD_SERVICE_KEY}}
+        project_id: ${{ secrets.GCLOUD_PROJECT_ID }}
 
-    # Get the GKE credentials so we can deploy to the cluster
+    # Configure Docker to use the gcloud command-line tool as a credential helper for authentication
     - run: |-
-        gcloud container clusters get-credentials ${{ env.GKE_CLUSTER }} --zone ${{ env.GKE_ZONE }}
+        gcloud --quiet auth configure-docker
+
+    # Get the GKE credentials 
+    - uses: google-github-actions/get-gke-credentials@fb08709ba27618c31c09e014e1d8364b02e5042e
+      with:
+        cluster_name: ${{ env.GKE_CLUSTER }}
+        location: ${{ env.GKE_ZONE }}
+        credentials: ${{ secrets.GCLOUD_SERVICE_KEY}}
     
     # Deploy sample image to the GKE cluster
     - name: Deploy
       run: |-
         kubectl apply -f ./sre/k8s-manifests/
-#        kubectl apply -f dummypdfpng-svc.yml
-#        kubectl apply -f dummypdfpng-deployment.yml
-#        kubectl apply -f getfile-app-lb.yml
-#        kubectl apply -f getfile-app-deployment.yml
-#	kubectl get deploy dummypdforpng-dpl
-#	kubectl get deploy getfile-app-dpl
-#	kubectl get svc dummypdforpng-svc
-#       kubectl get svc getfile-app-svc
-
