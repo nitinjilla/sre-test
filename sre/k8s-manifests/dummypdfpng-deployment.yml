@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
         - name: dummypdforpng
-          image: "asia.gcr.io/sre-test-nitin/dummy-pdf-or-png"
+          image: "asia.gcr.io/sre-test-nitin/dummy-pdf-or-png:latest"
           ports:
             - containerPort: 3000
