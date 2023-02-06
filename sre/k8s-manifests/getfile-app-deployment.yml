@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: dummypdforpng
-          image: 'asia.gcr.io/sre-test-nitin/getfile-app:latest'
+          image: 'asia.gcr.io/sre-test-nitin/getfile-app'
           env:
           - name: BACKEND_URL
             value: "http://dummypdforpng-svc:3000"
