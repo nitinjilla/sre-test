@@ -9,7 +9,7 @@ spec:
   selector:
     app: getfile-app
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 3001
+    - protocol: TCP
+      port: 80
+      targetPort: 3001
   type:LoadBalancer
