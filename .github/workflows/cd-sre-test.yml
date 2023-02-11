@@ -48,7 +48,6 @@ jobs:
         context: ./sre/getfile-app
 
 
-
     # Configure Workload Identity Federation and generate an access token.
     - id: 'auth'
       name: 'Authenticate to Google Cloud'
