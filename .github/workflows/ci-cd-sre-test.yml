@@ -28,7 +28,7 @@ jobs:
 
     # Configure Workload Identity Federation and generate an access token.
     - name: Authenticating through WIF 
-    - id: 'auth'
+      id: 'auth'
       name: 'Authenticate to Google Cloud'
       uses: 'google-github-actions/auth@v1'
       with:
