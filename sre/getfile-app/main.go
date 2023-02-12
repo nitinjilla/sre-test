@@ -22,12 +22,12 @@ import (
 func getRandomFile (w http.ResponseWriter, r *http.Request) {
 
         var fileExt string
+	fileID := mux.Vars(r)
 
         httpReqCounter.Inc()
 
         reqFile, err := http.Get("http://dummypdforpng-svc:3000")
         if err != nil {
-
                 log.Println(err)
         }
 
@@ -35,21 +35,18 @@ func getRandomFile (w http.ResponseWriter, r *http.Request) {
 
         respFile, err := ioutil.ReadAll(reqFile.Body)
         if err != nil {
-
                 log.Println(err)
         }
 
         mType := http.DetectContentType(respFile)
 
         if mType == "application/pdf"{
-
                 fileExt = "pdf"
         }else{
-
                 fileExt = "png"
         }
 
-        newFile := fmt.Sprintf("file.%s", fileExt)
+        newFile := fmt.Sprintf("%v.%s", fileID["id"], fileExt)
         ioutil.WriteFile(newFile, respFile, 0644)
 
         http.ServeFile(w, r, newFile)
@@ -69,11 +66,9 @@ var httpReqCounter = prometheus.NewCounter(
        Help: "No. of files downloaded.",
    } )
 
-
-
 func main(){
 
-        closeServer := make(chan os.Signal)                     //Creating a channel to catch the interrupt
+        closeServer := make(chan os.Signal, 1)                   //Creating a channel to catch the interrupt
         signal.Notify(closeServer, os.Interrupt)                //Notifies <-closeServer on Ctrl+C
 
         getFileServer := mux.NewRouter()                        //Create a new server
@@ -81,10 +76,9 @@ func main(){
         httpSrv := &http.Server{
                 Addr: ":3001",
                 Handler: getFileServer,
-
         }
 
-        getFileServer.HandleFunc("/", getRandomFile)            //Distributes a file chosen at random
+        getFileServer.HandleFunc("/{id}", getRandomFile)            //Distributes a file chosen at random
         getFileServer.HandleFunc("/health", healthCheck)        //Endpoint for healthcheck
         getFileServer.Handle("/metrics", promhttp.Handler())
 
@@ -95,21 +89,15 @@ func main(){
         go func(){
         err := httpSrv.ListenAndServe()                         //HTTP server runs on port 3001
         if err != nil {
-
                 log.Println(err)
         }
         }()
 
-
         <-closeServer
         log.Println("Application will be terminated. Waiting for all open connections to close...")
-
         ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-
         defer cancel()
-
         err := httpSrv.Shutdown(ctx);
-
         if err != nil{
                 log.Println(err)
         }
