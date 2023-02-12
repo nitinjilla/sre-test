@@ -26,11 +26,19 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    # Configure Workload Identity Federation and generate an access token.
+    - name: Authenticating through WIF 
+    - id: 'auth'
+      name: 'Authenticate to Google Cloud'
+      uses: 'google-github-actions/auth@v1'
+      with:
+        workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
+        service_account: '${{ secrets.GCLOUD_SVC_USER }}@${{ secrets.GCLOUD_PROJECT_ID }}.iam.gserviceaccount.com'
+    
     #Push images to GCR
     - name: Push dummy-pdf-or-png image to asia.gcr
       uses: RafikFarhad/push-to-gcr-github-action@v5-beta
       with:
-        gcloud_service_key: ${{ secrets.GCLOUD_SERVICE_KEY }} 
         registry: asia.gcr.io
         project_id: ${{ secrets.GCLOUD_PROJECT_ID }}
         image_name: dummy-pdf-or-png
@@ -40,20 +48,12 @@ jobs:
     - name: Push getfile-app image to asia.gcr
       uses: RafikFarhad/push-to-gcr-github-action@v5-beta
       with:
-        gcloud_service_key: ${{ secrets.GCLOUD_SERVICE_KEY }} 
         registry: asia.gcr.io
         project_id: ${{ secrets.GCLOUD_PROJECT_ID }}
         image_name: getfile-app
         image_tag: latest
         context: ./sre/getfile-app
 
-    # Configure Workload Identity Federation and generate an access token.
-    - id: 'auth'
-      name: 'Authenticate to Google Cloud'
-      uses: 'google-github-actions/auth@v1'
-      with:
-        workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
-        service_account: '${{ secrets.GCLOUD_SVC_USER }}@${{ secrets.GCLOUD_PROJECT_ID }}.iam.gserviceaccount.com'
 
     # Setup gcloud CLI
     - uses: google-github-actions/setup-gcloud@94337306dda8180d967a56932ceb4ddcf01edae7
