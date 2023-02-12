@@ -10,7 +10,11 @@ on:
 env:
   PROJECT_ID: ${{ secrets.GCLOUD_PROJECT_ID }}
   GKE_CLUSTER: ${{ secrets.GCLOUD_PROJECT_ID }}-gke      # TODO: update to cluster name
+<<<<<<< HEAD
   GKE_ZONE: europe-north1-a	           # TODO: update to cluster zone
+=======
+  GKE_ZONE: europe-north1-a                # TODO: update to cluster zone
+>>>>>>> 6e32148f2834bdbe05949b679df40af6ab967741
 
 jobs:
   setup-and-deploy:
@@ -30,7 +34,11 @@ jobs:
     - name: Push dummy-pdf-or-png image to asia.gcr
       uses: RafikFarhad/push-to-gcr-github-action@v5-beta
       with:
+<<<<<<< HEAD
         gcloud_service_key: ${{ secrets.GCLOUD_SERVICE_KEY }} 
+=======
+        gcloud_service_key: ${{ secrets.GCLOUD_SERVICE_KEY }}
+>>>>>>> 6e32148f2834bdbe05949b679df40af6ab967741
         registry: asia.gcr.io
         project_id: ${{ secrets.GCLOUD_PROJECT_ID }}
         image_name: dummy-pdf-or-png
@@ -40,15 +48,22 @@ jobs:
     - name: Push getfile-app image to asia.gcr
       uses: RafikFarhad/push-to-gcr-github-action@v5-beta
       with:
+<<<<<<< HEAD
         gcloud_service_key: ${{ secrets.GCLOUD_SERVICE_KEY }} 
+=======
+        gcloud_service_key: ${{ secrets.GCLOUD_SERVICE_KEY }}
+>>>>>>> 6e32148f2834bdbe05949b679df40af6ab967741
         registry: asia.gcr.io
         project_id: ${{ secrets.GCLOUD_PROJECT_ID }}
         image_name: getfile-app
         image_tag: latest
         context: ./sre/getfile-app
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 6e32148f2834bdbe05949b679df40af6ab967741
     # Configure Workload Identity Federation and generate an access token.
     - id: 'auth'
       name: 'Authenticate to Google Cloud'
@@ -67,13 +82,21 @@ jobs:
     - run: |-
         gcloud --quiet auth configure-docker
 
+<<<<<<< HEAD
     # Get the GKE credentials 
+=======
+    # Get the GKE credentials
+>>>>>>> 6e32148f2834bdbe05949b679df40af6ab967741
     - uses: google-github-actions/get-gke-credentials@fb08709ba27618c31c09e014e1d8364b02e5042e
       with:
         cluster_name: ${{ env.GKE_CLUSTER }}
         location: ${{ env.GKE_ZONE }}
         credentials: ${{ secrets.GCLOUD_SERVICE_KEY}}
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 6e32148f2834bdbe05949b679df40af6ab967741
     # Deploy sample image to the GKE cluster
     - name: Deploy
       run: |-
