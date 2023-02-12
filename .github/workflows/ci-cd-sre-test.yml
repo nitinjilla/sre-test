@@ -27,9 +27,8 @@ jobs:
       uses: actions/checkout@v3
 
     # Configure Workload Identity Federation and generate an access token.
-    - name: Authenticating through WIF 
-      id: 'auth'
-      name: 'Authenticate to Google Cloud'
+    - id: 'auth'
+      name: 'Authenticate to Google Cloud using WIF'
       uses: 'google-github-actions/auth@v1'
       with:
         workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
