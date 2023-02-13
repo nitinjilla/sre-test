@@ -22,7 +22,7 @@ import (
 func getRandomFile (w http.ResponseWriter, r *http.Request) {
 
         var fileExt string
-	fileID := mux.Vars(r)
+	//fileID := mux.Vars(r)
 
         httpReqCounter.Inc()
 
@@ -47,6 +47,7 @@ func getRandomFile (w http.ResponseWriter, r *http.Request) {
         }
 
         newFile := fmt.Sprintf("%v.%s", fileID["id"], fileExt)
+	newFile := fmt.Sprintf("file.%s", fileExt)
         ioutil.WriteFile(newFile, respFile, 0644)
 
         http.ServeFile(w, r, newFile)
@@ -78,8 +79,9 @@ func main(){
                 Handler: getFileServer,
         }
 
-	getFileServer.HandleFunc("/{id: [^0-9]+}", getRandomFile)            //Distributes a file chosen at random
-        getFileServer.HandleFunc("/health", healthCheck)        //Endpoint for healthcheck
+	//getFileServer.HandleFunc("/{id}", getRandomFile)            //Distributes a file chosen at random
+        getFileServer.HandleFunc("/", getRandomFile)
+	getFileServer.HandleFunc("/health", healthCheck)        //Endpoint for healthcheck
         getFileServer.Handle("/metrics", promhttp.Handler())
 
         prometheus.MustRegister(httpReqCounter)                 //Custom metrics for no. of hit received
