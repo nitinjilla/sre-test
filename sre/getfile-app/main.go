@@ -46,7 +46,7 @@ func getRandomFile (w http.ResponseWriter, r *http.Request) {
                 fileExt = "png"
         }
 
-        newFile := fmt.Sprintf("%v.%s", fileID["id"], fileExt)
+      //  newFile := fmt.Sprintf("%v.%s", fileID["id"], fileExt)
 	newFile := fmt.Sprintf("file.%s", fileExt)
         ioutil.WriteFile(newFile, respFile, 0644)
 
