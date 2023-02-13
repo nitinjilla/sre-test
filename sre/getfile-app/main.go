@@ -78,9 +78,9 @@ func main(){
                 Handler: getFileServer,
         }
 
-        getFileServer.HandleFunc("/{id:[0-9]}", getRandomFile)            //Distributes a file chosen at random
-        getFileServer.HandleFunc("/health/", healthCheck)        //Endpoint for healthcheck
-        getFileServer.Handle("/metrics/", promhttp.Handler())
+	getFileServer.HandleFunc("/{id}", getRandomFile)            //Distributes a file chosen at random
+        getFileServer.HandleFunc("/health", healthCheck)        //Endpoint for healthcheck
+        getFileServer.Handle("/metrics", promhttp.Handler())
 
         prometheus.MustRegister(httpReqCounter)                 //Custom metrics for no. of hit received
 
